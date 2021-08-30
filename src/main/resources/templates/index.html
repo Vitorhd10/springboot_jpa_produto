@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xml:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+</head>
+<body>
+<h1>Cadastro de Produto</h1>
+<form action="#" th:action="@{/sucesso}" th:object="${#temporals}" method="post">
+    Produto <input type="text" value="" name="nome"/>
+    Valor <input type="text" value="" name="valor"/>
+    Quantidade <input type="text" value="" name="quantidade"/>
+
+    <button type="submit">Salvar</button>
+
+</form>
+</body>
+</html>

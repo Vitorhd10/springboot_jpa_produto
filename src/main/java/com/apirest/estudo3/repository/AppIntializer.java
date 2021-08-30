@@ -10,7 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class AppIntializer implements WebApplicationInitializer {
-    public void onStartup(ServletContext container) throws ServletException{
+    public void onStartup(ServletContext container) throws ServletException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.scan("com.postgresql");
         container.addListener(new ContextLoaderListener(context));
