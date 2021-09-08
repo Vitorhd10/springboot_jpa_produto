@@ -1,49 +1,80 @@
 package com.apirest.estudo3.controllers;
 
-
 import com.apirest.estudo3.models.Produto;
 import com.apirest.estudo3.repository.ProdutoRepository;
 import com.apirest.estudo3.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.Id;
 import java.util.List;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.ID;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
+@Controller
 @RestController
 public class ProdutoController {
 
     @Autowired
     ProdutoService produtoService;
 
-    @GetMapping("/produtos")
-    public List<Produto> listaProdutos() {
-        return produtoService.listaProdutos();
+    @GetMapping("/salvar")
+    private ModelAndView listProduto(@ModelAttribute Produto produto) {
+        ModelAndView mv = new ModelAndView("salvo");
+        List<Produto> produtos = this.produtoService.listaProdutos();
+        mv.addObject("produto", produtos);
+        return mv;
     }
 
-    @GetMapping("/produto/{id}")
-    public Produto listaProdutounico(@PathVariable(value = "id") Long id) {
-        return produtoService.listaProdutounico(id);
+
+    @PostMapping(value = "/salvar")
+    public ModelAndView salvar(@ModelAttribute Produto produto) {
+        ModelAndView mv = new ModelAndView("salvo");
+        Produto produto1 = produtoService.salvar(produto);
+        List<Produto> produtos = this.produtoService.listaProdutos();
+        mv.addObject("produto", produtos);
+        return mv;
     }
 
     @GetMapping("/salvo")
-    public String showProdutoList(Model model) {
-        model.addAttribute("produto");
+    public String salvo(Model model) {
         return "salvo";
     }
 
-    @PostMapping(value = "/sucesso")
-    public String salvar(@ModelAttribute Produto produto, BindingResult errors, Model model) {
+    @GetMapping(value = "/index")
+    public ModelAndView newProduto() {
+        ModelAndView mv = new ModelAndView("index");
+        return mv;
+    }
 
-        Produto produto1 = produtoService.salvar(produto);
-        return "redirect:/salvo";
+    @GetMapping("/")
+    public ModelAndView formIndex(Model model) {
+        ModelAndView mv = new ModelAndView("index");
+        return mv;
+    }
 
+    @GetMapping("/salvar/{id}")
+    public ModelAndView edit(@PathVariable long id, Produto produto) {
+        Produto produtos = this.produtoService.listaProdutoUnico(id);
+
+        ModelAndView mv = new ModelAndView("/edit");
+        mv.addObject("produtoId", produtos.getId());
+        return mv;
+    }
+
+    @PostMapping("/salvar/{id}")
+    public ModelAndView update(@PathVariable long id) {
+        ModelAndView mv = new ModelAndView("salvo");
+        Produto produtos = this.produtoService.listaProdutoUnico(id);
+        return mv;
+    }
+
+    @GetMapping("salvar/{id}/delete")
+    public ModelAndView delete(@PathVariable("id") Model model, long id) {
+        ModelAndView mv = new ModelAndView("salvo");
+        this.produtoService.delete(id);
+        return mv ;
     }
 
 

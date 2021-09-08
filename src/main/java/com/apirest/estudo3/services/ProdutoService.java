@@ -21,7 +21,7 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
-    public Produto listaProdutounico(Long id) {
+    public Produto listaProdutoUnico(Long id) {
         return produtoRepository.findById(id).get();
     }
 
@@ -29,5 +29,10 @@ public class ProdutoService {
         Produto produto1 = produtoRepository.save(produto);
         return produto1;
     }
+
+    public void delete (long id) {
+        produtoRepository.deleteById(id);
+    }
+
 
 }
