@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xml:th="https://www.thymeleaf.org">
 <head>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Lista de Produtos</title>
+
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <h1>Salvo com Sucesso</h1>
+        <h1>Lista de Produtos</h1>
     </div>
     <div class="row">
         <div class="col-12">
@@ -20,26 +23,71 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Produto</th>
-                    <th scope="col">Valor</th>
                     <th scope="col">Quantidade</th>
+                    <th scope="col">Valor</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
+
                 <tr th:each="produto: ${produto}">
+
                     <th class="col-1" scope="row" th:text="${produto.getId()}">ID</th>
                     <td class="col-2" th:text="${produto.nome}">Nome do Produto</td>
-                    <td class="col-3" th:text="${produto.valor}">Valor</td>
-                    <td class="col-4" th:text="${produto.quantidade}">Quantidade</td>
-                    <td class="col-1"><a th:href="@{/salvar/{produtoId}/delete(produtoId = ${produto.id})} ">Deletar</a></td>
-                    <td class="col-1"><a th:href="@{/salvar/{produtoId}/(produtoId = ${produto.id})}">Editar</a></td>
+                    <td class="col-3" th:text="${produto.quantidade}">Quantidade</td>
+                    <td class="col-4" th:text="${produto.valor}">Valor</td>
+                    <td class="col-1">
+
+                        <!-- Button trigger modal -->
+
+
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal"
+                           th:attr="data-target= ${produto.nome} + '#myModal'" >
+                            Excluir
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Excluir Produto!</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body"
+                                         th:text="'VOCE DESEJA DELETAR O PRODUTO COM O ID: ' + ${produto.id}">
+                                        VOCÊ DESEJA DELETAR ESTE PRODUTO?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Cancelar
+                                        </button>
+                                        <a th:href="@{/salvar/{produtoId}/delete(produtoId = ${produto.id})}"
+                                           type="button" class="btn btn-primary">Sim</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                    <td class="col-1">
+                        <a class="btn btn-secondary"
+                           th:href="@{/salvar/{produtoId}/edit(produtoId = ${produto.id})}">Editar</a>
+
+                    </td>
                 </tr>
 
                 </tbody>
             </table>
             <form th:action="@{/index}" method="get">
-                <input type="submit" value="Novo Produto"/>
+                <input class="btn btn-primary" type="submit" value="Novo Produto"/>
             </form>
+            <div>
+                <p></p>
+            <a class="btn btn-secondary" th:href="@{/salvar}">Lista de Produtos </a>
+            </div>
         </div>
     </div>
 </div>

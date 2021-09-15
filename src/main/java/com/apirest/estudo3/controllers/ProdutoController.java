@@ -30,16 +30,11 @@ public class ProdutoController {
 
     @PostMapping(value = "/salvar")
     public ModelAndView salvar(@ModelAttribute Produto produto) {
-        ModelAndView mv = new ModelAndView("salvo");
         Produto produto1 = produtoService.salvar(produto);
+        ModelAndView mv = new ModelAndView("salvo");
         List<Produto> produtos = this.produtoService.listaProdutos();
         mv.addObject("produto", produtos);
         return mv;
-    }
-
-    @GetMapping("/salvo")
-    public String salvo(Model model) {
-        return "salvo";
     }
 
     @GetMapping(value = "/index")
@@ -54,27 +49,34 @@ public class ProdutoController {
         return mv;
     }
 
-    @GetMapping("/salvar/{id}")
+    @GetMapping("/salvar/{id}/edit")
     public ModelAndView edit(@PathVariable long id, Produto produto) {
         Produto produtos = this.produtoService.listaProdutoUnico(id);
-
         ModelAndView mv = new ModelAndView("/edit");
         mv.addObject("produtoId", produtos.getId());
+        mv.addObject("produtoNome", produtos.getNome());
+        mv.addObject("produtoQuantidade", produtos.getQuantidade());
+        mv.addObject("produtoValor", produtos.getValor());
         return mv;
     }
 
     @PostMapping("/salvar/{id}")
-    public ModelAndView update(@PathVariable long id) {
+    public ModelAndView update(@PathVariable long id, Produto produto) {
+        Produto produto1 = produtoService.salvar(produto);
         ModelAndView mv = new ModelAndView("salvo");
-        Produto produtos = this.produtoService.listaProdutoUnico(id);
+        List<Produto> produtos = this.produtoService.listaProdutos();
+        mv.addObject("produto", produto);
         return mv;
     }
 
     @GetMapping("salvar/{id}/delete")
-    public ModelAndView delete(@PathVariable("id") Model model, long id) {
-        ModelAndView mv = new ModelAndView("salvo");
+    public ModelAndView delete(@PathVariable long id) {
         this.produtoService.delete(id);
-        return mv ;
+        ModelAndView mv = new ModelAndView("salvo");
+        System.out.println("------------" + id);
+        List<Produto> produtos = this.produtoService.listaProdutos();
+        mv.addObject("produto", produtos);
+        return mv;
     }
 
 

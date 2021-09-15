@@ -9,28 +9,34 @@
 <div class="container">
     <div class="container">
         <div class="row">
-            <header th:replace="~{fragment :: header('Editar Produto #' + ${produtoId})}"></header>
+            <header th:replace="~{fragment :: header('Editar Produto #' + ${produto.getId})}"></header>
 
-            <form action="#" th:action="@{/salvar/{produtoId}(produtoId = ${produtoId})}" th:object="${produtos}" method="post">
+
+            <form action="" th:action="@{/salvar/{produtoId}/(produtoId = ${produtoId})}" th:object="${produtos}"  method="post">
                 <div class="mb-3">
                     <label class="form-label">Produto</label>
-                    <input class="form-control" type="text"/>
+                    <input class="form-control" type="text" value="" name="nome" th:value="${produtoNome}"/>
                     <div></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Valor</label>
-                    <input class="form-control" type="text" value="" name="valor"/>
+                    <input class="form-control" type="text" name="valor" th:value="${produtoValor}"/>
                     <div></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Quantidade</label>
-                    <input class="form-control" type="text" value="" name="quantidade"/>
+                    <input class="form-control" type="text" name="quantidade" th:value="${produtoQuantidade}"/>
                     <div></div>
                 </div>
 
                 <button class="btn btn-primary" type="submit">Salvar</button>
 
+
             </form>
+            <div>
+                <p></p>
+                <a class="btn btn-secondary" th:href="@{/salvar}">Voltar</a>
+            </div>
         </div>
     </div>
 </div>
