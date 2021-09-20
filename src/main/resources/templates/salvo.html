@@ -38,32 +38,25 @@
                     <td class="col-4" th:text="${produto.valor}">Valor</td>
                     <td class="col-1">
 
+
                         <!-- Button trigger modal -->
-
-
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal"
-                           th:attr="data-target= ${produto.nome} + '#myModal'" >
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target= '#modalDelete'+*{produto.id}" >
                             Excluir
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-
+                        <div class="modal fade" th:id="*{'modalDelete'+{produto.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Excluir Produto!</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                        <h5 class="modal-title" id="staticBackdropLabel">Excluir Produto</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body"
-                                         th:text="'VOCE DESEJA DELETAR O PRODUTO COM O ID: ' + ${produto.id}">
-                                        VOCÊ DESEJA DELETAR ESTE PRODUTO?
+                                    <div class="modal-body" th:text="'Deseja excluir o produto com id ' + ${produto.id} + ' ?'">
+                                        ...
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                            Cancelar
-                                        </button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         <a th:href="@{/salvar/{produtoId}/delete(produtoId = ${produto.id})}"
                                            type="button" class="btn btn-primary">Sim</a>
                                     </div>
