@@ -12,12 +12,18 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.Id;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3001")
 @Controller
 @RestController
 public class ProdutoController {
 
     @Autowired
     ProdutoService produtoService;
+
+    @GetMapping("/produtos")
+    public List<Produto> listaProdutos(){
+        return this.produtoService.listaProdutos();
+    }
 
     @GetMapping("/salvar")
     private ModelAndView listProduto(@ModelAttribute Produto produto) {
